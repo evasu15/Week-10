@@ -22,11 +22,11 @@ class Membership {
     }
 }
 
-let teams = []
-let teamId = 0
+let memberships = []
+let membershipId = 0
 
-onClick('new-team', () => {
-    teams.push(new Membership(teamId++, getValue('new-team-name')));
+onClick('new-membership', () => {
+    memberships.push(new Membership(membershipId++, getValue('new-membership-name')));
     drawDOM();
 });
 
@@ -41,65 +41,65 @@ function getValue(id) {
 }
 
 function drawDOM() {
-    let teamDiv = document.getElementById('teams');
-    clearElement(teamDiv);
-    for (team of teams) {
-        let table = creatTeamTable(team);
+    let membershipDiv = document.getElementById('memberships');
+    clearElement(membershipDiv);
+    for (membership of memberships) {
+        let table = creatMembershipTable(membership);
         let title = document.createElement('h2');
-        title.innerHTML = team.name;
-        title.appendChild(createDeleteTeamButton(team));
-        teamDiv.appendChild(title);
-        teamDiv.appendChild(table);
-        for (member of team.members) {
-            createMemberRow(team, table, member);
+        title.innerHTML = membership.name;
+        title.appendChild(createDeleteMembershipButton(membership));
+        membershipDiv.appendChild(title);
+        membershipDiv.appendChild(table);
+        for (member of membership.members) {
+            createMemberRow(membership, table, member);
         }
     }
 }
 
-function createMemberRow(team, table, member) {
+function createMemberRow(membership, table, member) {
     let row = table.insertRow(2);
     row.insertCell(0).innerHTML = member.name;
     row.insertCell(1).innerHTML = member.membership;
     let actions = row.insertCell(2);
-    actions.appendChild(createDeleteRowButton(team, member));
+    actions.appendChild(createDeleteRowButton(membership, member));
 }
 
-function createDeleteRowButton(team, number) {
+function createDeleteRowButton(membership, number) {
     let btn = document.createElement('button');
     btn.className = 'btn btn-primary';
     btn.innerHTML = 'Delete';
     btn.onclick = () => {
-        let index = team.members.indexOf(member);
-        team.members.splice(index, 1);
+        let index = membership.members.indexOf(member);
+        membership.members.splice(index, 1);
         drawDOM();
     };
     return btn;
 }
 
-function createDeleteTeamButton(team) {
+function createDeleteMembershipButton(membership) {
     let btn = document.createElement('button');
     btn.className = 'btn btn-primary';
     btn.innerHTML = 'Delete Membership';
     btn.onclick = () => {
-        let index = teams.indexOf(team);
-        teams.splice(index, 1);
+        let index = memberships.indexOf(membership);
+        memberships.splice(index, 1);
         drawDOM();
     };
     return btn;
 }
 
-function createNewMemberButton(team) {
+function createNewMemberButton(membership) {
     let btn = document.createElement('button');
     btn.className = 'btn btn-primary';
     btn.innerHTML = 'Create';
     btn.onclick = () => {
-        team.members. push(new Member(getValue(`name-input-${team.id}`), getValue(`membership-input-${team.id}`)));
+        membership.members. push(new Member(getValue(`name-input-${membership.id}`), getValue(`membership-input-${membership.id}`)));
         drawDOM();
     };
     return btn;
 }
 
-function creatTeamTable(){
+function creatMembershipTable(){
     let table = document.createElement('table');
     table.setAttribute('class', 'table table-dark table-striped');
     let row = table.insertRow(0);
@@ -114,14 +114,14 @@ function creatTeamTable(){
     let membershipTh = document.createElement('th');
     let createTh = document.createElement('th');
     let nameInput = document.createElement('Input');
-    nameInput.setAttribute('id', `name-input-${team.id}`);
+    nameInput.setAttribute('id', `name-input-${membership.id}`);
     nameInput.setAttribute('type', 'text');
     nameInput.setAttribute('class', 'form-control');
     let membershipInput = document.createElement('Input');
-    membershipInput.setAttribute('id', `membership-input-${team.id}`);
+    membershipInput.setAttribute('id', `membership-input-${membership.id}`);
     membershipInput.setAttribute('type', 'text');
     membershipInput.setAttribute('class', 'form-control');
-    let newMemberButton = createNewMemberButton(team);
+    let newMemberButton = createNewMemberButton(membership);
     nameTh.appendChild(nameInput);
    membershipTh.appendChild(membershipInput);
     createTh.appendChild(newMemberButton);
